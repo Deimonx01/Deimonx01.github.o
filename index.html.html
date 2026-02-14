@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I LOVE YOU FOREVER ❤️</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: linear-gradient(to top, #ff4e8a, #ff9ecf);
+        font-family: 'Arial', sans-serif;
+        text-align: center;
+        color: white;
+    }
+
+    h1 {
+        position: absolute;
+        width: 100%;
+        top: 40%;
+        font-size: 60px;
+        letter-spacing: 5px;
+        text-shadow: 0 0 20px white, 0 0 40px #ff1e78;
+        animation: pulse 1.5s infinite alternate;
+        z-index: 2;
+    }
+
+    @keyframes pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+
+    canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    /* Botón */
+    .btn {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(180deg,#ff6ea3,#ff1e78);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 18px;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(255,30,120,0.35);
+        z-index: 4;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+    }
+    .btn.secondary { background: #ffd1dc; color: #5a0b2e; box-shadow: none; }
+</style>
+</head>
+
+<body>
+
+<h1>❤️ I'll LOVE YOU FOREVER❤️</h1>
+<canvas id="fireworks"></canvas>
+
+<!-- Botón que abre la página de la carta -->
+<a href="letter.html" class="btn">Púlsame</a>
+<script>
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = Math.random() * 3 + 2;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.alpha = 1;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= 0.02;
+    }
+
+    draw() {
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+    }
+}
+
+function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height / 2;
+    const colors = ["#ff1e78", "#ffffff", "#ff69b4", "#ffd1dc"];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    for (let i = 0; i < 50; i++) {
+        particles.push(new Particle(x, y, color));
+    }
+}
+
+function animate() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((particle, index) => {
+        if (particle.alpha <= 0) {
+            particles.splice(index, 1);
+        } else {
+            particle.update();
+            particle.draw();
+        }
+    });
+
+    requestAnimationFrame(animate);
+}
+
+setInterval(createFirework, 800);
+animate();
+
+window.addEventListener("resize", () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Querida 💌</title>
+<style>
+  :root{--pink1:#fff5f8;--pink2:#ffdfe8;--accent:#ff1e78;--text:#5a0b2e}
+  html,body{height:100%;margin:0;font-family:Georgia, 'Times New Roman', serif;background:linear-gradient(180deg,#ff9ecf 0%,#ffd1dc 100%)}
+  .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:28px}
+  .card{width:100%;max-width:760px;background:linear-gradient(180deg,var(--pink1),var(--pink2));box-shadow:0 20px 50px rgba(90,11,46,0.15);border-radius:14px;padding:28px;color:var(--text)}
+  h1{margin:0 0 10px 0;font-size:28px;text-align:center}
+  p.lead{margin:0 0 18px 0;text-align:center;color:rgba(90,11,46,0.8)}
+  textarea{width:100%;min-height:320px;padding:14px;border-radius:10px;border:1px solid rgba(90,11,46,0.08);font-size:18px;line-height:1.5;resize:vertical;box-sizing:border-box}
+  .row{display:flex;gap:12px;margin-top:12px;justify-content:flex-end}
+  .btn{background:linear-gradient(180deg,#ff6ea3,#ff1e78);color:white;border:none;padding:10px 16px;border-radius:10px;font-size:16px;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(90,11,46,0.08)}
+  .preview{margin-top:16px;background:rgba(255,255,255,0.9);padding:12px;border-radius:8px;color:var(--text);white-space:pre-wrap}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .back{color:var(--accent);text-decoration:none;font-weight:600}
+  @media(max-width:520px){textarea{min-height:220px}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="topbar">
+        <a class="back" href="love.html">← Volver</a>
+        <div style="font-size:14px;color:rgba(90,11,46,0.6)"> Mi princesa </div>
+      </div>
+      <h1>Queriada Ronalí</h1>
+      <p class="lead">Escribe un lindo mensaje para esa persona especial. Puedes descargarlo cuando quieras.</p>
+      <textarea id="letterText" placeholder="Buenos días mi amor, hoy es nuestro primer San Valentín juntos !! se que hoy será lindo porque veré tu sonrisa, esa la que me enamoró en el primer instante que la vi, nos miraremos a los ojos y veremos lo enamorado que estamos uno del otro, tantas cosas por decirte que podria estar escribiendo por horas,nos vemos en la noche mi amada hermosa, ten un precioso día y sobre todo que Dios te bendiga, recuerda que te adoro mucho y que eres lo más bonito de mi vida. Y todo el mundo tiene un motivo para ser feliz y el mío eres tú TE AMO RONALI DE LOS ANGELES 🫶🏻"></textarea>
+      <div class="row">
+      </div>
+      <div id="preview" class="preview" style="display:none"></div>
+    </div>
+  </div>
+<script>
+const txt = document.getElementById('letterText');
+const previewBtn = document.getElementById('previewBtn');
+const downloadBtn = document.getElementById('downloadBtn');
+const preview = document.getElementById('preview');
+
+previewBtn.addEventListener('click', ()=>{
+  const v = txt.value.trim();
+  if(!v){ preview.style.display='none'; return }
+  preview.textContent = v;
+  preview.style.display = 'block';
+  preview.scrollIntoView({behavior:'smooth'});
+});
+
+downloadBtn.addEventListener('click', ()=>{
+  const content = txt.value.trim();
+  if(!content){ txt.focus(); txt.style.boxShadow='0 0 0 4px rgba(255,110,163,0.18)'; setTimeout(()=>txt.style.boxShadow='none',800); return }
+  const blob = new Blob([content],{type:'text/plain;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  const name = 'carta_' + new Date().toISOString().slice(0,10) + '.txt';
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  a.remove();
+});
+</script>
+</body>
+</html>
